@@ -501,10 +501,7 @@ ActiveRecord::Schema.define(version: 20180923171309) do
     t.boolean  "has_swag"
     t.boolean  "has_banner"
     t.date     "invoice_sent_at"
-    t.string   "state",                default: "unconfirmed"
-    t.text     "notes"
-    t.text     "short_description"
-    t.string   "email"
+    t.string   "state"
   end
 
   create_table "sponsorship_levels", force: :cascade do |t|

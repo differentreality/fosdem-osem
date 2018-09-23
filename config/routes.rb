@@ -125,10 +125,10 @@ Osem::Application.routes.draw do
       resources :tickets
       resources :sponsors do
         member do
-          patch :contacted
-          patch :unconfirmed
-          patch :confirm
-          patch :cancel
+          get :contacted
+          get :unconfirmed
+          get :confirm
+          get :cancel
           get :prepare_email
           post :email
         end

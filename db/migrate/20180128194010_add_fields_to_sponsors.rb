@@ -9,6 +9,6 @@ class AddFieldsToSponsors < ActiveRecord::Migration[5.0]
     add_column :sponsors, :swag, :text
     add_column :sponsors, :shipments, :text
     add_column :sponsors, :invoice_sent_at, :date
-    add_column :sponsors, :state, :string, default: 'unconfirmed'
+    add_column :sponsors, :state, :string
   end
 end
