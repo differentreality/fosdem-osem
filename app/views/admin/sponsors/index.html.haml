@@ -2,10 +2,8 @@
   .col-md-12
     .page-header
       %h1
-        Sponsors
-        - if @sponsors.confirmed.any?
-          = "(#{@sponsors.confirmed.length})"
-
+        = pluralize(@sponsors.confirmed.length, 'Sponsor')
+        (#{number_with_precision(@sponsors.confirmed.sum(:amount), precision: 0, delimiter: ',')})
       %p.text-muted
         People supporting your conference
 .row

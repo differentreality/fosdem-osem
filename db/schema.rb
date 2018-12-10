@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180923171309) do
+ActiveRecord::Schema.define(version: 20181210104635) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.integer  "visit_id"
@@ -496,12 +496,18 @@ ActiveRecord::Schema.define(version: 20180923171309) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "picture"
+    t.text     "notes"
+    t.text     "short_description"
+    t.string   "email"
     t.float    "amount"
     t.boolean  "paid"
     t.boolean  "has_swag"
     t.boolean  "has_banner"
     t.date     "invoice_sent_at"
     t.string   "state"
+    t.string   "invoice_name"
+    t.string   "invoice_address"
+    t.string   "invoice_vat"
   end
 
   create_table "sponsorship_levels", force: :cascade do |t|

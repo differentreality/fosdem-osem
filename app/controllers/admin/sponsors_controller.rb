@@ -8,6 +8,7 @@ module Admin
 
     def index
       authorize! :index, Sponsor.new(conference_id: @conference.id)
+      @sponsors_contacted = { to_contact: @conference.sponsors.to_contact.count, contacted: @conference.sponsors.contacted.count, in_negotiations: @conference.sponsors.unconfirmed.count }
     end
 
     def edit; end
@@ -132,6 +133,8 @@ module Admin
                                       :sponsorship_level_id,
                                       :conference_id,
                                       :has_swag, :has_banner, :email,
+                                      :state, :paid, :amount,
+                                      :invoice_name, :invoice_address, :invoice_vat,
                                       sponsor_swags_attributes: [:name, :quantity, :id, :_destroy],
                                       sponsor_shipments_attributes: [:carrier, :track_no, :boxes, :id, :_destroy, sponsor_swag_ids: []] )
     end

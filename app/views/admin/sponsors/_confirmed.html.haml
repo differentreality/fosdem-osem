@@ -7,11 +7,12 @@
           %th Name
           %th Description
           %th Amount
+          %th Paid
           %th Level
           %th URL
-          %th Has Swag
-          %th Has Banner
-          %th Actions
+          %th.text-center Has Swag
+          %th.text-center Has Banner
+          %th.text-center Actions
         %tbody
           - @conference.sponsors.confirmed.each do |sponsor|
             %tr
@@ -22,12 +23,20 @@
                 = link_to sponsor.name, admin_conference_sponsor_path(@conference, sponsor)
               %td
                 = truncate(sponsor.description)
-              %td= sponsor.amount
+              %td.text-right= number_with_delimiter(sponsor.amount, delimiter: ',')
+              %td{ 'data-order' => sponsor.paid.to_s }
+                = check_box_tag @conference.short_title,
+                                sponsor.id,
+                                sponsor.paid,
+                                method: :patch,
+                                url: "/admin/conferences/#{@conference.short_title}/sponsors/#{sponsor.id}?sponsor[paid]=",
+                                class: 'switch-checkbox',
+                                data: { size: 'small', off_color: 'warning', on_text: 'Yes', off_text: 'No' }
               %td
                 = sponsor.sponsorship_level.title
               %td
                 = sponsor.website_url
-              %td
+              %td.text-center{ 'data-order' => sponsor.has_swag.to_s }
                 = check_box_tag @conference.short_title,
                                 sponsor.id,
                                 sponsor.has_swag,
@@ -35,7 +44,7 @@
                                 url: "/admin/conferences/#{@conference.short_title}/sponsors/#{sponsor.id}?sponsor[has_swag]=",
                                 class: 'switch-checkbox',
                                 data: { size: 'small', off_color: 'warning', on_text: 'Yes', off_text: 'No' }
-              %td
+              %td.text-center{ 'data-order' => sponsor.has_banner.to_s }
                 = check_box_tag @conference.short_title,
                                 sponsor.id,
                                 sponsor.has_banner,
@@ -44,5 +53,5 @@
                                 class: 'switch-checkbox',
                                 data: { size: 'small', off_color: 'warning', on_text: 'Yes', off_text: 'No' }
 
-              %td
+              %td.text-center
                 = render partial: 'actions', locals: { sponsor: sponsor}

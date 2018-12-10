@@ -4,9 +4,17 @@
     %th Quantity
     %th Delivered
     %th Available at venue
-  - @sponsor.swag.each do |swag|
+  - @sponsor.sponsor_swags.each do |swag|
     %tr
-      %td= swag['type']
-      %td= swag['quantity']
-      %td= swag['delivered']
-      %td= swag['available']
+      %td= swag.name
+      %td= swag.quantity
+      %td
+        - if swag.sponsor_shipments.all?{ |shipment| shipment.delivered }
+          .fa.fa-check.text-success
+        - else
+          .fa.fa-times.text-danger
+      %td
+        - if swag.sponsor_shipments.all?{ |shipment| shipment.available }
+          .fa.fa-check.text-success
+        - else
+          .fa.fa-times.text-danger

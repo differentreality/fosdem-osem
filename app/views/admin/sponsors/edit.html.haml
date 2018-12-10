@@ -8,14 +8,26 @@
         = @sponsor.name
 = semantic_form_for(@sponsor, url: (@sponsor.new_record? ? admin_conference_sponsors_path : admin_conference_sponsor_path(@conference.short_title, @sponsor))) do |f|
   .row
-    .col-md-8
-      = f.input :email
+    .col-md-6
       = f.input :name, input_html: { autofocus: true }
+      = f.input :email
+      = f.input :sponsorship_level, collection: @conference.sponsorship_levels
+      = f.input :amount
+      = @sponsor.state
+      = f.input :state, as: :select, collection: [ ['Not Started/To Contact', 'not_started'],
+                                                   ['Contacted', 'contacted'],
+                                                   ['In negotiations', 'unconfirmed'],
+                                                   ['Confirmed', 'confirmed'],
+                                                   ['Cancelled', 'cancelled'] ],
+                                                   selected: @sponsor.state
+    .col-md-6
+      = f.input :website_url
       = f.input :description, input_html: { rows: 3 }
       = image_tag f.object.picture.thumb.url if f.object.picture?
       = f.input :picture
-      = f.input :website_url
-      = f.input :sponsorship_level, collection: @conference.sponsorship_levels
+      = f.input :invoice_name
+      = f.input :invoice_address
+      = f.input :invoice_vat
   .row
     .col-md-8
       #swag

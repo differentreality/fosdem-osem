@@ -1,3 +1,21 @@
+= javascript_include_tag 'chartkick'
+= javascript_include_tag 'Chart.bundle'
+= javascript_include_tag "//www.google.com/jsapi", "chartkick"
+
+%h2.text-center
+  Total Contacts:
+  = @sponsors.length
+  = '-'
+  Already contacted:
+  = @sponsors.contacted.length
+  = '-'
+  In negotiations:
+  = @sponsors.unconfirmed.length
+
+
+
+= pie_chart @sponsors_contacted
+
 - if @conference.sponsors.unconfirmed.any?
   .row
     .col-md-12
