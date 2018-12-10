@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181210104635) do
+ActiveRecord::Schema.define(version: 20181210131134) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.integer  "visit_id"
@@ -500,7 +500,7 @@ ActiveRecord::Schema.define(version: 20181210104635) do
     t.text     "short_description"
     t.string   "email"
     t.float    "amount"
-    t.boolean  "paid"
+    t.boolean  "paid",                 default: false
     t.boolean  "has_swag"
     t.boolean  "has_banner"
     t.date     "invoice_sent_at"

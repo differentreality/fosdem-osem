@@ -31,7 +31,11 @@
                                 method: :patch,
                                 url: "/admin/conferences/#{@conference.short_title}/sponsors/#{sponsor.id}?sponsor[paid]=",
                                 class: 'switch-checkbox',
-                                data: { size: 'small', off_color: 'warning', on_text: 'Yes', off_text: 'No' }
+                                data: { size: 'small',
+                                        off_color: 'warning',
+                                        on_color: 'success',
+                                        on_text: 'Yes',
+                                        off_text: 'No' }
               %td
                 = sponsor.sponsorship_level.title
               %td
