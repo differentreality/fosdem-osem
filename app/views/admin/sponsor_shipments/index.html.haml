@@ -1,25 +1,45 @@
-%h1 Listing sponsor_shipments
-
-%table
-  %tr
-    %th Carrier
-    %th Track no
-    %th Delivered
-    %th Available
-    %th
-    %th
-    %th
-
-  - @sponsor_shipments.each do |sponsor_shipment|
-    %tr
-      %td= sponsor_shipment.carrier
-      %td= sponsor_shipment.track_no
-      %td= sponsor_shipment.delivered
-      %td= sponsor_shipment.available
-      %td= link_to 'Show', sponsor_shipment
-      %td= link_to 'Edit', edit_sponsor_shipment_path(sponsor_shipment)
-      %td= link_to 'Destroy', sponsor_shipment, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New Sponsor shipment', new_sponsor_shipment_path
+.row
+  .col-md-12
+    .page-header
+      %h1
+        Shipments for #{@sponsor.name}
+        = link_to 'Add Shipment', new_admin_conference_sponsor_sponsor_shipment_path(@conference, @sponsor), class: 'btn btn-warning pull-right'
+.row
+  .col-md-12
+    %table.table.table-hover.table-striped.datatable#swag-table
+      %thead
+        %th Carrier
+        %th.text-center Track no
+        %th.text-center Swag
+        %th.text-center Delivered
+        %th.text-center Available
+        %th.text-center Actions
+      %tbody
+        - @sponsor_shipments.each do |shipment|
+          %tr
+            %td= shipment.carrier
+            %td.text-right= shipment.track_no
+            %td.text-center
+              = shipment.sponsor_swags.pluck(:name).join("<br>").html_safe
+            %td.text-center
+              = check_box_tag @conference.short_title, @sponsor.id, shipment.delivered,
+              method: :patch, url: "/admin/conferences/#{@conference.short_title}/sponsors/#{@sponsor.id}/sponsor_shipments/#{shipment.id}?sponsor_shipment[delivered]=",
+              class: 'switch-checkbox', data: { off_color: 'warning',
+                                                on_text: 'delivered',
+                                                off_text: 'in_transit' }
+            %td.text-center
+              = check_box_tag @conference.short_title, @sponsor.id,
+              shipment.available, method: :patch, url: "/admin/conferences/#{@conference.short_title}/sponsors/#{@sponsor.id}/sponsor_shipments/#{shipment.id}?sponsor_shipment[available]=",
+              class: 'switch-checkbox', data: { off_color: 'warning',
+                                                on_text: 'at_venue',
+                                                off_text: 'not_available' }
+            %td.text-center
+              .btn-group
+                = link_to 'Show', admin_conference_sponsor_sponsor_shipment_path(@conference, @sponsor, shipment),
+                  class: 'btn btn-success'
+                = link_to 'Edit', edit_admin_conference_sponsor_sponsor_shipment_path(@conference, @sponsor, shipment),
+                  class: 'btn btn-primary'
+                = link_to 'Destroy', admin_conference_sponsor_sponsor_shipment_path(@conference, @sponsor, shipment),
+                  method: :delete,
+                  class: 'btn btn-danger',
+                  data: { confirm: "Are you sure you want to delete shipment with Tracking No #{shipment.track_no} (#{shipment.carrier})?" }

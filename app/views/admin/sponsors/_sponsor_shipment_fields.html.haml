@@ -12,3 +12,11 @@
       = f.input :dispatched_at, as: :string, input_html: { class: 'datetimepicker' }, label: false
     .col-md-2
       = remove_association_link :shipment, f
+
+:javascript
+  $('.datetimepicker').datetimepicker({
+    pickTime: true,
+    useCurrent: false,
+    sideBySide: true,
+    format: 'YYYY-MM-DD HH:mm'
+  });

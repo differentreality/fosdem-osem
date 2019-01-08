@@ -6,25 +6,36 @@
         = link_to 'Add Swag', new_admin_conference_sponsor_sponsor_swag_path(@conference, @sponsor), class: 'btn btn-warning pull-right'
 .row
   .col-md-12
-    %table.table.table-hover.table-striped#swag-table
+    %table.table.table-hover.table-striped.datatable#swag-table
       %thead
         %th Name
-        %th Quantity
-        %th Shipments
-        %th Delivered
-        %th Available at venue
-        %th Notes
-        %th Actions
+        %th.text-center Quantity
+        %th.text-center Shipments
+        %th.text-center Delivered
+        %th.text-center Available at venue
+        %th.text-center Notes
+        %th.text-center Actions
       %tbody
         - @sponsor.sponsor_swags.each do |swag|
           %tr
             %td= swag.name
-            %td= swag.quantity
-            %td
+            %td.text-right= swag.quantity
+            %td.text-center
               - swag.sponsor_shipments.each do |shipment|
                 = shipment.track_no
-            %td
-            %td
-            %td
-            %td
-            %td
+            %td.text-center{ data: { order: swag.delivered?.to_s } }
+              - if swag.delivered?
+                %span.fa.fa-check.text-success
+              - else
+                %span.fa.fa-times.text-danger
+            %td.text-center{ data: { order: swag.at_venue?.to_s } }
+              - if swag.at_venue?
+                %span.fa.fa-check.text-success
+              - else
+                %span.fa.fa-times.text-danger
+            %td= swag.notes
+            %td.text-center
+              .btn-group
+                = link_to 'Edit', edit_admin_conference_sponsor_sponsor_swag_path(@conference, @sponsor, swag), class: 'btn btn-primary'
+                = link_to 'Delete', admin_conference_sponsor_sponsor_swag_path(@conference, @sponsor, swag), method: :delete, class: 'btn btn-danger', data: { confirm: "Are you sure you want to delete swag #{swag.name}?" }
+                = link_to 'Shipments', admin_conference_sponsor_sponsor_shipments_path(@conference, @sponsor, swag_id: swag.id), class: 'btn btn-success'

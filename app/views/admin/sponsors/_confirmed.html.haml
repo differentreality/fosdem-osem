@@ -1,7 +1,7 @@
 - if @conference.sponsors.confirmed.any?
   .row
     .col-md-12
-      %table.table.table-hover.datatable#sponsors
+      %table.table.table-hover.datatable#confirmed-sponsors
         %thead
           %th Logo
           %th Name
@@ -37,7 +37,7 @@
                                         on_text: 'Yes',
                                         off_text: 'No' }
               %td
-                = sponsor.sponsorship_level.title
+                = sponsor.sponsorship_level&.title
               %td
                 = sponsor.website_url
               %td.text-center{ 'data-order' => sponsor.has_swag.to_s }

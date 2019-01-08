@@ -29,11 +29,11 @@ module Admin
       # @sponsor_swag.sponsor_shipments << @sponsor_shipment
 
       if @sponsor_shipment.save
-        flash[:notice] = 'Successfully save swag.'
-        redirect_to admin_conference_sponsor_sponsor_swags_path(@conference, @sponsor)
+        flash[:notice] = 'Successfully saved shipment.'
+        redirect_to admin_conference_sponsor_sponsor_shipments_path(@conference, @sponsor)
       else
-        @url = admin_conference_sponsor_sponsor_swags_path(@conference, @sponsor)
-        flash[:error] = 'Could not save swag. ' + @sponsor_swag.errors.full_messages.to_sentence
+        @url = admin_conference_sponsor_sponsor_shipments_path(@conference, @sponsor)
+        flash[:error] = 'Could not save shipment. ' + @sponsor_shipment.errors.full_messages.to_sentence
         render :new
       end
     end

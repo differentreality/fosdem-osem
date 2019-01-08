@@ -2,10 +2,11 @@
   .col-md-12
     .page-header
       %h1
-        -if @sponsor.new_record?
+        - if @sponsor.new_record?
           New
         Sponsor
         = @sponsor.name
+
 = semantic_form_for(@sponsor, url: (@sponsor.new_record? ? admin_conference_sponsors_path : admin_conference_sponsor_path(@conference.short_title, @sponsor))) do |f|
   .row
     .col-md-6

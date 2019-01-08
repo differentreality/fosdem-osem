@@ -135,15 +135,17 @@ module Admin
                                       :has_swag, :has_banner, :email,
                                       :state, :paid, :amount,
                                       :invoice_name, :invoice_address, :invoice_vat,
-                                      sponsor_swags_attributes: [:name, :quantity, :id, :_destroy],
-                                      sponsor_shipments_attributes: [:carrier, :track_no, :boxes, :id, :_destroy, sponsor_swag_ids: []] )
-    end
-
-    def shipment_params
-      params.require(:sponsor).require(:shipment).permit([:carrier,
-                                                          :track_no,
-                                                          :boxes,
-                                                          :swag])
+                                      sponsor_swags_attributes: [:name,
+                                                                 :quantity,
+                                                                 :id,
+                                                                 :_destroy],
+                                      sponsor_shipments_attributes: [:carrier,
+                                                                     :track_no,
+                                                                     :boxes,
+                                                                     :id,
+                                                                     :_destroy,
+                                                                     :dispatched_at,
+                                                                     sponsor_swag_ids: []] )
     end
 
     def sponsorship_level_required

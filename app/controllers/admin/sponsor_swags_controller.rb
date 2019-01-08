@@ -24,12 +24,15 @@ module Admin
 
     def create
       @sponsor_swag = @sponsor.sponsor_swags.new(sponsor_swag_params)
-      @sponsor_shipment = @sponsor_swag.sponsor_shipments.new(sponsor_shipment_params)
-      @sponsor_shipment.sponsor = @sponsor
-      @sponsor_swag.sponsor_shipments << @sponsor_shipment
+
+      if params[:sponsor_shipment]
+        @sponsor_shipment = @sponsor_swag.sponsor_shipments.new(sponsor_shipment_params)
+        @sponsor_shipment.sponsor = @sponsor
+        @sponsor_swag.sponsor_shipments << @sponsor_shipment
+      end
 
       if @sponsor_swag.save
-        flash[:notice] = 'Successfully save swag.'
+        flash[:notice] = 'Successfully saved swag.'
         redirect_to admin_conference_sponsor_sponsor_swags_path(@conference, @sponsor)
       else
         @url = admin_conference_sponsor_sponsor_swags_path(@conference, @sponsor)
@@ -51,7 +54,7 @@ module Admin
     end
 
     def sponsor_shipment_params
-      params.require(:sponsor_shipment).permit(:carrier, :track_no, :boxes, :delivered, :available, :dispatched_at)
+      params.fetch(:sponsor_shipment).permit!(:carrier, :track_no, :boxes, :delivered, :available, :dispatched_at)
     end
   end
 end
