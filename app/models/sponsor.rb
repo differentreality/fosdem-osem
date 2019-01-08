@@ -27,7 +27,7 @@ class Sponsor < ApplicationRecord
   end
 
   def self.with_shipment
-    select{|sponsor| sponsor.sponsor_shipments.any?}
+    select{ |sponsor| sponsor.sponsor_shipments.any? }
   end
 
   def self.with_swag

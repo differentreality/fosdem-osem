@@ -1,4 +1,4 @@
-- if @conference.sponsors.confirmed.with_shipment.any?
+- if @conference.sponsors.confirmed.with_swag.any?
   .row
     .col-md-12
       %table.table.table-hover.datatable#sponsors
@@ -10,7 +10,7 @@
           %th.text-center Shipments
           %th.text-center Actions
         %tbody
-          - @conference.sponsors.confirmed.with_shipment.each do |sponsor|
+          - @conference.sponsors.confirmed.with_swag.each do |sponsor|
             %tr
               %td= sponsor.name
               %td.text-right= sponsor.amount
