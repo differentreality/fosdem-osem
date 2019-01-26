@@ -22,7 +22,6 @@
                                                    ['Cancelled', 'cancelled'] ],
                                                    selected: @sponsor.state
     .col-md-6
-      = f.input :logo_link
       = f.input :website_url
       = f.input :description, input_html: { rows: 3 }
       = image_tag f.object.picture.thumb.url if f.object.picture?
