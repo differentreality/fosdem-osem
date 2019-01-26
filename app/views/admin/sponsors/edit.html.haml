@@ -14,7 +14,7 @@
       = f.input :email
       = f.input :sponsorship_level, collection: @conference.sponsorship_levels
       = f.input :amount
-      = @sponsor.state
+      = f.input :notes, input_html: { rows: 3 }, hint: 'Notes of the organizers. Not public.'
       = f.input :state, as: :select, collection: [ ['Not Started/To Contact', 'not_started'],
                                                    ['Contacted', 'contacted'],
                                                    ['In negotiations', 'unconfirmed'],
@@ -22,6 +22,7 @@
                                                    ['Cancelled', 'cancelled'] ],
                                                    selected: @sponsor.state
     .col-md-6
+      = f.input :logo_link
       = f.input :website_url
       = f.input :description, input_html: { rows: 3 }
       = image_tag f.object.picture.thumb.url if f.object.picture?

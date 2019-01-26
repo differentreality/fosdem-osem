@@ -12,6 +12,7 @@
 
       = f.input :name, input_html: { autofocus: true }
       = f.input :amount
+      = f.input :notes, input_html: { rows: 3 }, hint: 'Notes of the organizers. Not public.'
 
       = f.input :sponsorship_level, collection: @conference.sponsorship_levels
 

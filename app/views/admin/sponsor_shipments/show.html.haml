@@ -1,5 +1,3 @@
-%p#notice= notice
-
 %p
   %b Carrier:
   = @sponsor_shipment.carrier
@@ -12,7 +10,3 @@
 %p
   %b Available:
   = @sponsor_shipment.available
-
-= link_to 'Edit', edit_sponsor_shipment_path(@sponsor_shipment)
-\|
-= link_to 'Back', sponsor_shipments_path
