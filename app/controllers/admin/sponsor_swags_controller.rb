@@ -44,13 +44,21 @@ module Admin
     def update
     end
 
+    def deliver
+      @sponsor_swag.sponsor_shipments.update(delivered: sponsor_swag_params[:delivered])
+    end
+
+    def available
+      @sponsor_swag.sponsor_shipments.update(available: sponsor_swag_params[:available])
+    end
+
     def destroy
     end
 
     private
 
     def sponsor_swag_params
-      params.require(:sponsor_swag).permit(:name, :quantity, :notes)
+      params.require(:sponsor_swag).permit(:name, :quantity, :notes, :delivered, :available)
     end
 
     def sponsor_shipment_params

@@ -23,16 +23,26 @@
             %td.text-center
               - swag.sponsor_shipments.each do |shipment|
                 = shipment.track_no
+                = "\n"
             %td.text-center{ data: { order: swag.delivered?.to_s } }
-              - if swag.delivered?
-                %span.fa.fa-check.text-success
-              - else
-                %span.fa.fa-times.text-danger
+              = check_box_tag @conference.short_title, swag.id, swag.delivered?,
+                              method: :patch,
+                              url: "/admin/conferences/#{@conference.short_title}/sponsors/#{@sponsor.id}/sponsor_swags/#{swag.id}/deliver?sponsor_swag[delivered]=",
+                              class: 'switch-checkbox',
+                              data: { size: 'small',
+                                      off_color: 'warning',
+                                      on_text: "<span class='fa fa-check fa-font-size-initial'></span>",
+                                      off_text: '<i class="fa fa-times fa-font-size-initial"></i>' }
+
             %td.text-center{ data: { order: swag.at_venue?.to_s } }
-              - if swag.at_venue?
-                %span.fa.fa-check.text-success
-              - else
-                %span.fa.fa-times.text-danger
+              = check_box_tag @conference.short_title, swag.id, swag.at_venue?,
+                              method: :patch,
+                              url: "/admin/conferences/#{@conference.short_title}/sponsors/#{@sponsor.id}/sponsor_swags/#{swag.id}/available?sponsor_swag[available]=",
+                              class: 'switch-checkbox',
+                              data: { size: 'small',
+                                      off_color: 'warning',
+                                      on_text: "<span class='fa fa-check fa-font-size-initial'></span>",
+                                      off_text: '<i class="fa fa-times fa-font-size-initial"></i>' }
             %td= swag.notes
             %td.text-center
               .btn-group

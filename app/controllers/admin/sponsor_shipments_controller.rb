@@ -4,9 +4,18 @@ module Admin
   class SponsorShipmentsController < Admin::BaseController
     load_and_authorize_resource
     load_and_authorize_resource :sponsor
+    load_resource :sponsor_swag
     load_and_authorize_resource :conference, find_by: :short_title
 
     def index
+      @sponsor_shipments = if @sponsor_swag
+                              @sponsor_swag.sponsor_shipments
+                           elsif @sponsor
+                             @sponsor.sponsor_shipments
+                           else
+                             SponsorShipment.where(sponsor: @conference.sponsors)
+                           end
+
       respond_to do |format|
         format.html
         format.pdf do

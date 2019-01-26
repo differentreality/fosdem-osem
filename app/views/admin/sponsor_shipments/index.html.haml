@@ -2,13 +2,17 @@
   .col-md-12
     .page-header
       %h1
-        Shipments for #{@sponsor.name}
-        = link_to 'Add Shipment', new_admin_conference_sponsor_sponsor_shipment_path(@conference, @sponsor), class: 'btn btn-warning pull-right'
+        Shipments
+        - if @sponsor
+          for #{@sponsor&.name}
+          = link_to 'Add Shipment', new_admin_conference_sponsor_sponsor_shipment_path(@conference, @sponsor), class: 'btn btn-warning pull-right hidden-print'
+        (#{@sponsor_shipments.length})
         = link_to 'PDF', admin_conference_sponsor_shipments_path(@conference, format: :pdf), class: 'btn btn-success pull-right hidden-print'
 .row
   .col-md-12
     %table.table.table-hover.table-striped.datatable.table-pdf#shipments-table
       %thead
+        %th Sponsor
         %th Carrier
         %th.text-center Track no
         %th.text-center Swag
@@ -50,11 +54,11 @@
 
             %td.text-center.hidden-print
               .btn-group
-                = link_to 'Show', admin_conference_sponsor_sponsor_shipment_path(@conference, @sponsor, shipment),
+                = link_to 'Show', admin_conference_sponsor_sponsor_shipment_path(@conference, shipment.sponsor, shipment),
                   class: 'btn btn-success'
-                = link_to 'Edit', edit_admin_conference_sponsor_sponsor_shipment_path(@conference, @sponsor, shipment),
+                = link_to 'Edit', edit_admin_conference_sponsor_sponsor_shipment_path(@conference, shipment.sponsor, shipment),
                   class: 'btn btn-primary'
-                = link_to 'Destroy', admin_conference_sponsor_sponsor_shipment_path(@conference, @sponsor, shipment),
+                = link_to 'Destroy', admin_conference_sponsor_sponsor_shipment_path(@conference, shipment.sponsor, shipment),
                   method: :delete,
                   class: 'btn btn-danger',
                   data: { confirm: "Are you sure you want to delete shipment with Tracking No #{shipment.track_no} (#{shipment.carrier})?" }

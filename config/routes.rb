@@ -121,6 +121,7 @@ Osem::Application.routes.draw do
 
       resources :resources
       resources :tickets
+      resources :sponsor_shipments, only: :index
       resources :sponsors do
         member do
           get :contacted
@@ -130,7 +131,12 @@ Osem::Application.routes.draw do
           get :prepare_email
           post :email
         end
-        resources :sponsor_swags
+        resources :sponsor_swags do
+          member do
+            patch :deliver
+            patch :available
+          end
+        end
         resources :sponsor_shipments
       end
       resources :lodgings, except: [:show]

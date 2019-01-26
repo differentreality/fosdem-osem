@@ -15,7 +15,8 @@ class SponsorSwag < ApplicationRecord
   # * +True+ -> if all swag shipments have been delivered
   # * +False+ -> if not all swag shipments have been delivered
   def delivered?
-    sponsor_shipments.all?(:delivered)
+    return false unless sponsor_shipments.any?
+    sponsor_shipments.all?(&:delivered)
   end
 
   ##
@@ -24,7 +25,8 @@ class SponsorSwag < ApplicationRecord
   # * +True+ -> if all swag is at the venue
   # * +False+ -> if not all swag is at the venue
   def at_venue?
-    sponsor_shipments.all?(:available)
+    return false unless sponsor_shipments.any?
+    sponsor_shipments.all?(&:available)
   end
 
   private
