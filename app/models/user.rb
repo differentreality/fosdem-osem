@@ -32,6 +32,13 @@ class User < ApplicationRecord
   # add scope
   scope :comment_notifiable, ->(conference) {joins(:roles).where('roles.name IN (?)', [:organizer, :cfp]).where('roles.resource_type = ? AND roles.resource_id = ?', 'Conference', conference.id)}
 
+  # scopes for user distributions
+  scope :active, lambda {
+    where('last_sign_in_at > ?', Date.today - 3.months).where(is_disabled: false)
+  }
+  scope :unconfirmed, -> { where('confirmed_at IS NULL') }
+  scope :dead, -> { where('last_sign_in_at < ?', Date.today - 1.year) }
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -79,7 +86,6 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :roles
 
   scope :admin, -> { where(is_admin: true) }
-  scope :active, -> { where(is_disabled: false) }
 
   validates :email, presence: true
 
@@ -87,9 +93,15 @@ class User < ApplicationRecord
             uniqueness: {
                 case_sensitive: false
             },
-            presence: true
+            presence:   true
 
   validate :biography_limit
+
+  DISTRIBUTION_COLORS = {
+    'Active'      => 'green',
+    'Unconfirmed' => 'red',
+    'Dead'        => 'black'
+  }.freeze
 
   ##
   # Checkes if the user attended the event
@@ -103,6 +115,7 @@ class User < ApplicationRecord
     event_registration = event.events_registrations.find_by(registration: registrations)
 
     return false unless event_registration.present?
+
     event_registration.attended
   end
 
@@ -138,8 +151,8 @@ class User < ApplicationRecord
     raise UserDisabled if user&.is_disabled
 
     if user
-      user.update_attributes(email: attributes[:email],
-                             last_sign_in_at: user.current_sign_in_at,
+      user.update_attributes(email:              attributes[:email],
+                             last_sign_in_at:    user.current_sign_in_at,
                              current_sign_in_at: Time.current)
     else
       begin
@@ -149,6 +162,22 @@ class User < ApplicationRecord
       end
     end
     user
+  end
+
+  ##
+  # Returns a hash with user distribution => {value: count of user state, color: color}
+  # active: signed in during the last 3 months
+  # unconfirmed: registered but not confirmed
+  # dead: not signed in during the last year
+  #
+  # ====Returns
+  # * +hash+ -> hash
+  def self.distribution
+    {
+      'Active'      => User.active.count,
+      'Unconfirmed' => User.unconfirmed.count,
+      'Dead'        => User.dead.count
+    }
   end
 
   def self.find_for_database_authentication(warden_conditions)

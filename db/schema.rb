@@ -53,26 +53,15 @@ ActiveRecord::Schema.define(version: 20181210131134) do
     t.datetime "updated_at",             null: false
   end
 
-  create_table "campaigns", force: :cascade do |t|
-    t.integer  "conference_id"
-    t.string   "name"
-    t.string   "utm_source"
-    t.string   "utm_medium"
-    t.string   "utm_term"
-    t.string   "utm_content"
-    t.string   "utm_campaign"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "cfps", force: :cascade do |t|
-    t.date     "start_date",  null: false
-    t.date     "end_date",    null: false
+    t.date     "start_date",                           null: false
+    t.date     "end_date",                             null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "program_id"
     t.string   "cfp_type"
     t.text     "description"
+    t.boolean  "enable_registrations", default: false
   end
 
   create_table "comments", force: :cascade do |t|
@@ -147,6 +136,8 @@ ActiveRecord::Schema.define(version: 20181210131134) do
     t.datetime "updated_at"
     t.string   "sponsor_email"
     t.string   "mastodon"
+    t.string   "youtube"
+    t.string   "blog"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -456,6 +447,7 @@ ActiveRecord::Schema.define(version: 20181210131134) do
     t.datetime "updated_at"
     t.boolean  "include_cfp",               default: false
     t.boolean  "include_booths"
+    t.boolean  "shuffle_highlights",        default: false, null: false
   end
 
   create_table "sponsor_shipments", force: :cascade do |t|
@@ -560,18 +552,7 @@ ActiveRecord::Schema.define(version: 20181210131134) do
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
     t.integer  "target",          default: 0
-  end
-
-  add_index "surveys", ["surveyable_type", "surveyable_id"], name: "index_surveys_on_surveyable_type_and_surveyable_id"
-
-  create_table "targets", force: :cascade do |t|
-    t.integer  "conference_id"
-    t.integer  "campaign_id"
-    t.date     "due_date"
-    t.integer  "target_count"
-    t.string   "unit"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.index ["surveyable_type", "surveyable_id"], name: "index_surveys_on_surveyable_type_and_surveyable_id"
   end
 
   create_table "ticket_purchases", force: :cascade do |t|
@@ -643,7 +624,7 @@ ActiveRecord::Schema.define(version: 20181210131134) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
-    t.boolean  "email_public",           default: true
+    t.boolean  "email_public",           default: false
     t.text     "biography"
     t.string   "nickname"
     t.string   "affiliation"
@@ -711,33 +692,6 @@ ActiveRecord::Schema.define(version: 20181210131134) do
     t.datetime "created_at"
     t.integer  "conference_id"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
-  end
-
-  create_table "visits", force: :cascade do |t|
-    t.binary   "visitor_id",       limit: 16
-    t.string   "ip"
-    t.text     "user_agent"
-    t.text     "referrer"
-    t.text     "landing_page"
-    t.integer  "user_id"
-    t.string   "referring_domain"
-    t.string   "search_keyword"
-    t.string   "browser"
-    t.string   "os"
-    t.string   "device_type"
-    t.string   "country"
-    t.string   "region"
-    t.string   "city"
-    t.string   "utm_source"
-    t.string   "utm_medium"
-    t.string   "utm_term"
-    t.string   "utm_content"
-    t.string   "utm_campaign"
-    t.datetime "started_at"
-    t.string   "visit_token"
-    t.string   "visitor_token"
-    t.index ["user_id"], name: "index_visits_on_user_id"
-    t.index ["visit_token"], name: "index_visits_on_visit_token", unique: true
   end
 
   create_table "votes", force: :cascade do |t|
