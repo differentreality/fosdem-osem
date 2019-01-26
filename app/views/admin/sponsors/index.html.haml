@@ -4,6 +4,7 @@
       %h1
         = pluralize(@sponsors.confirmed.length, 'Sponsor')
         (#{number_with_precision(@sponsors.confirmed.sum(:amount), precision: 0, delimiter: ',')})
+        = link_to 'Shipments PDF', admin_conference_sponsor_shipments_path(@conference, format: :pdf), class: 'btn btn-success pull-right'
       %p.text-muted
         People supporting your conference
 .row

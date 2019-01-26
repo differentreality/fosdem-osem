@@ -4,36 +4,51 @@
       %h1
         Shipments for #{@sponsor.name}
         = link_to 'Add Shipment', new_admin_conference_sponsor_sponsor_shipment_path(@conference, @sponsor), class: 'btn btn-warning pull-right'
+        = link_to 'PDF', admin_conference_sponsor_shipments_path(@conference, format: :pdf), class: 'btn btn-success pull-right hidden-print'
 .row
   .col-md-12
-    %table.table.table-hover.table-striped.datatable#swag-table
+    %table.table.table-hover.table-striped.datatable.table-pdf#shipments-table
       %thead
         %th Carrier
         %th.text-center Track no
         %th.text-center Swag
         %th.text-center Delivered
         %th.text-center Available
-        %th.text-center Actions
+        %th.text-center.hidden-print Actions
       %tbody
-        - @sponsor_shipments.each do |shipment|
-          %tr
+        - @sponsor_shipments.each.with_index(1) do |shipment, index|
+          %tr{ class: "#{ 'striped' if index.odd?}" }
+            %td= shipment.sponsor.name
             %td= shipment.carrier
             %td.text-right= shipment.track_no
             %td.text-center
               = shipment.sponsor_swags.pluck(:name).join("<br>").html_safe
             %td.text-center
-              = check_box_tag @conference.short_title, @sponsor.id, shipment.delivered,
-              method: :patch, url: "/admin/conferences/#{@conference.short_title}/sponsors/#{@sponsor.id}/sponsor_shipments/#{shipment.id}?sponsor_shipment[delivered]=",
-              class: 'switch-checkbox', data: { off_color: 'warning',
-                                                on_text: 'delivered',
-                                                off_text: 'in_transit' }
+              .hidden-print
+                = check_box_tag @conference.short_title, shipment.sponsor.id, shipment.delivered,
+                method: :patch, url: "/admin/conferences/#{@conference.short_title}/sponsors/#{shipment.sponsor.id}/sponsor_shipments/#{shipment.id}?sponsor_shipment[delivered]=",
+                class: 'switch-checkbox', data: { off_color: 'warning',
+                                                  on_text: 'delivered',
+                                                  off_text: 'in_transit' }
+              .visible-print
+                - if shipment.delivered
+                  Delivered
+                - else
+                  In transit
             %td.text-center
-              = check_box_tag @conference.short_title, @sponsor.id,
-              shipment.available, method: :patch, url: "/admin/conferences/#{@conference.short_title}/sponsors/#{@sponsor.id}/sponsor_shipments/#{shipment.id}?sponsor_shipment[available]=",
-              class: 'switch-checkbox', data: { off_color: 'warning',
-                                                on_text: 'at_venue',
-                                                off_text: 'not_available' }
-            %td.text-center
+              .hidden-print
+                = check_box_tag @conference.short_title, shipment.sponsor.id,
+                shipment.available, method: :patch, url: "/admin/conferences/#{@conference.short_title}/sponsors/#{shipment.sponsor.id}/sponsor_shipments/#{shipment.id}?sponsor_shipment[available]=",
+                class: 'switch-checkbox', data: { off_color: 'warning',
+                                                  on_text: 'at_venue',
+                                                  off_text: 'not_available' }
+              .visible-print
+                - if shipment.available
+                  At venue
+                - else
+                  %i pending
+
+            %td.text-center.hidden-print
               .btn-group
                 = link_to 'Show', admin_conference_sponsor_sponsor_shipment_path(@conference, @sponsor, shipment),
                   class: 'btn btn-success'

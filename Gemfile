@@ -36,6 +36,10 @@ gem 'carrierwave'
 gem 'carrierwave-bombshelter'
 gem 'mini_magick'
 
+gem 'pdfkit'
+gem 'wkhtmltopdf-binary'
+gem 'wicked_pdf'
+
 # for internationalizing
 gem 'rails-i18n', '~> 5.0.0'
 

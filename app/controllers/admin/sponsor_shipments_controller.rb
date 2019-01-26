@@ -7,6 +7,17 @@ module Admin
     load_and_authorize_resource :conference, find_by: :short_title
 
     def index
+      respond_to do |format|
+        format.html
+        format.pdf do
+          html = render_to_string(action: 'index.html.haml', layout: 'pdf')
+          kit = PDFKit.new(html)
+          filename = "shipments.pdf"
+
+          send_data kit.to_pdf, filename: filename, type: 'application/pdf'
+          return
+        end
+      end
     end
 
     def new
