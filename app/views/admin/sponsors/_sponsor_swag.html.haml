@@ -9,12 +9,12 @@
       %td= swag.name
       %td= swag.quantity
       %td
-        - if swag.sponsor_shipments.all?{ |shipment| shipment.delivered }
+        - if swag.delivered?
           .fa.fa-check.text-success
         - else
           .fa.fa-times.text-danger
       %td
-        - if swag.sponsor_shipments.all?{ |shipment| shipment.available }
+        - if swag.at_venue?
           .fa.fa-check.text-success
         - else
           .fa.fa-times.text-danger
