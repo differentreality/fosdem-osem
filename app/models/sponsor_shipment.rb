@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SponsorShipment < ApplicationRecord
-  belongs_to :sponsor
+  belongs_to :sponsorship
   has_and_belongs_to_many :sponsor_swags
 
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }

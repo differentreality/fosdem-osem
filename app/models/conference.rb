@@ -40,7 +40,7 @@ class Conference < ApplicationRecord
   has_many :vdays, dependent: :destroy
   has_many :vpositions, dependent: :destroy
   has_many :sponsorship_levels, -> { order('position ASC') }, dependent: :destroy
-  has_many :sponsors, dependent: :destroy
+  has_many :sponsorships, dependent: :destroy
   has_many :commercials, as: :commercialable, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
   has_one :call_for_events, -> { where(cfp_type: 'events') }, through: :program, source: :cfps
@@ -65,7 +65,7 @@ class Conference < ApplicationRecord
   accepts_nested_attributes_for :venue
   accepts_nested_attributes_for :tickets, allow_destroy: true
   accepts_nested_attributes_for :sponsorship_levels, allow_destroy: true
-  accepts_nested_attributes_for :sponsors, allow_destroy: true
+  accepts_nested_attributes_for :sponsorships, allow_destroy: true
   accepts_nested_attributes_for :email_settings
   accepts_nested_attributes_for :questions, allow_destroy: true
   accepts_nested_attributes_for :vdays, allow_destroy: true

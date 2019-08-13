@@ -170,6 +170,7 @@ Osem::Application.routes.draw do
         patch :restart
       end
     end
+    resources :sponsorships
     resources :surveys, only: [:index, :show] do
       member do
         post :reply

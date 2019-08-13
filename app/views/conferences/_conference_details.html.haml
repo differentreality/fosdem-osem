@@ -47,6 +47,9 @@
               = link_to "My #{(t'booth').capitalize } Requests", conference_booths_path(conference.short_title), class: 'btn btn-default'
             - elsif can? :new, conference.booths.new
               = link_to "Request #{(t'booth').capitalize }", new_conference_booth_path(conference.short_title), class: 'btn btn-default'
+
+            = link_to 'Want to sponsor?', new_conference_sponsorship_path(conference), class: 'btn btn-default'
+
             - if current_user.nil? || !current_user.subscribed?(conference)
               = link_to 'Subscribe', conference_subscriptions_path(conference.short_title), method: :post, class: 'btn btn-default'
             - else

@@ -1,0 +1,20 @@
+%table.table.datatable-minimal
+  %thead
+    %th Type
+    %th Quantity
+    %th Delivered
+    %th Available at venue
+  - @sponsor.sponsor_swags.each do |swag|
+    %tr
+      %td= swag.name
+      %td= swag.quantity
+      %td
+        - if swag.sponsor_shipments.all?{ |shipment| shipment.delivered }
+          .fa.fa-check.text-success
+        - else
+          .fa.fa-times.text-danger
+      %td
+        - if swag.sponsor_shipments.all?{ |shipment| shipment.available }
+          .fa.fa-check.text-success
+        - else
+          .fa.fa-times.text-danger

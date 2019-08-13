@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181210131134) do
+ActiveRecord::Schema.define(version: 2019_08_13_115652) do
 
   create_table "answers", force: :cascade do |t|
     t.string "title"
@@ -439,28 +439,28 @@ ActiveRecord::Schema.define(version: 20181210131134) do
   end
 
   create_table "sponsor_shipments", force: :cascade do |t|
-    t.integer  "sponsor_id"
-    t.string   "carrier"
-    t.string   "track_no"
-    t.integer  "boxes"
+    t.integer "sponsor_id"
+    t.string "carrier"
+    t.string "track_no"
+    t.integer "boxes"
     t.datetime "dispatched_at"
-    t.boolean  "delivered"
-    t.boolean  "available"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.boolean "delivered"
+    t.boolean "available"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["sponsor_id"], name: "index_sponsor_shipments_on_sponsor_id"
   end
 
   create_table "sponsor_shipments_swags", id: false, force: :cascade do |t|
     t.integer "sponsor_shipment_id", null: false
-    t.integer "sponsor_swag_id",     null: false
+    t.integer "sponsor_swag_id", null: false
   end
 
   create_table "sponsor_swags", force: :cascade do |t|
-    t.integer  "sponsor_id"
-    t.string   "name"
-    t.integer  "quantity"
-    t.text     "notes"
+    t.integer "sponsor_id"
+    t.string "name"
+    t.integer "quantity"
+    t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["sponsor_id"], name: "index_sponsor_swags_on_sponsor_id"
@@ -471,23 +471,21 @@ ActiveRecord::Schema.define(version: 20181210131134) do
     t.text "description"
     t.string "website_url"
     t.string "logo_file_name"
-    t.integer "sponsorship_level_id"
-    t.integer "conference_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "picture"
-    t.text     "notes"
-    t.text     "short_description"
-    t.string   "email"
-    t.float    "amount"
-    t.boolean  "paid",                 default: false
-    t.boolean  "has_swag"
-    t.boolean  "has_banner"
-    t.date     "invoice_sent_at"
-    t.string   "state"
-    t.string   "invoice_name"
-    t.string   "invoice_address"
-    t.string   "invoice_vat"
+    t.string "picture"
+    t.text "notes"
+    t.text "short_description"
+    t.string "email"
+    t.float "amount"
+    t.boolean "paid", default: false
+    t.boolean "has_swag"
+    t.boolean "has_banner"
+    t.date "invoice_sent_at"
+    t.string "state"
+    t.string "invoice_name"
+    t.string "invoice_address"
+    t.string "invoice_vat"
   end
 
   create_table "sponsorship_levels", force: :cascade do |t|
@@ -496,6 +494,15 @@ ActiveRecord::Schema.define(version: 20181210131134) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "position"
+    t.integer "min_amount"
+  end
+
+  create_table "sponsorships", force: :cascade do |t|
+    t.integer "sponsor_id"
+    t.integer "amount"
+    t.integer "sponsorship_level_id"
+    t.integer "user_id"
+    t.integer "conference_id"
   end
 
   create_table "subscriptions", force: :cascade do |t|

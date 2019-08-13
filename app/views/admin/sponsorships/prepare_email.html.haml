@@ -1,0 +1,17 @@
+.row
+  .col-md-12
+    .page-header.text-center
+      %h1
+        Email for #{@sponsor.name}
+      .text-muted
+        Email will be sent to #{@sponsor.email}
+.row
+  .col-md-12
+    = semantic_form_for @sponsor_email, url: email_admin_conference_sponsor_path do |f|
+      = f.input :to
+      = f.input :from
+      = f.input :subject, input_html: { value: "#{@conference.title}(#{date_string(@conference.start_date, @conference.end_date)}) sponsorship for #{@sponsor.name}" }
+      = f.label 'Body'
+      ~ text_area :sponsor_email, :body, rows: 10, cols: 40, value: "Hello, \n\nI am happy to inform you that the next FOSDEM is happening on February 2-3, 2019, \n\nand we are currently contacting sponsors to support us. \n\nLast year you sponsored 18000 USD. \n\nIn case you are interested, our call for participation is available here https://fosdem.org/2019/news/2018-08-10-call-for-participation/  \n\nI am looking forward to hearing back from you, \n\nStella", class: 'form-control'
+      %br
+      = f.submit 'Send Email', data: { confirm: 'Are you sure you want the email to be sent?' }, class: 'btn btn-primary'

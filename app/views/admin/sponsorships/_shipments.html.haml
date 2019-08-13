@@ -1,0 +1,45 @@
+- if @conference.sponsors.confirmed.with_swag.any?
+  .row
+    .col-md-12
+      %table.table.table-hover.datatable#sponsors
+        %thead
+          %th.text-center Name
+          %th.text-center Amount
+          %th.text-center Level
+          %th.text-center Swag
+          %th.text-center Shipments
+          %th.text-center Actions
+        %tbody
+          - @conference.sponsors.confirmed.with_swag.each do |sponsor|
+            %tr
+              %td= sponsor.name
+              %td.text-right= sponsor.amount
+              %td= sponsor.sponsorship_level.title
+              %td
+                - sponsor.sponsor_swags.each do |swag|
+                  = swag.quantity
+                  = swag.name
+                  %br
+              %td
+                %table.table
+                  - sponsor.sponsor_shipments.each.with_index do |shipment, index|
+                    %tr
+                      %td
+                        %b= "#{shipment.carrier}(#{shipment.track_no})"
+                        .text-muted
+                          = shipment.sponsor_swags.pluck(:name).join("<br>").html_safe
+                      %td
+                        = check_box_tag @conference.short_title, sponsor.id, shipment.delivered,
+                        method: :patch, url: "/admin/conferences/#{@conference.short_title}/sponsors/#{sponsor.id}/sponsor_shipments/#{shipment.id}?sponsor_shipment[delivered]=",
+                        class: 'switch-checkbox', data: { off_color: 'warning',
+                                                          on_text: 'delivered',
+                                                          off_text: 'in_transit' }
+
+                      %td
+                        = check_box_tag @conference.short_title, sponsor.id,
+                        shipment.available, method: :patch, url: "/admin/conferences/#{@conference.short_title}/sponsors/#{sponsor.id}/sponsor_shipments/#{shipment.id}?sponsor_shipment[available]=",
+                        class: 'switch-checkbox', data: { off_color: 'warning',
+                                                          on_text: 'at_venue',
+                                                          off_text: 'not_available' }
+
+              %td.text-center= render partial: 'actions', locals: { sponsor: sponsor }

@@ -83,6 +83,7 @@ class User < ApplicationRecord
   has_many :booths, through: :booth_requests
   has_many :survey_replies
   has_many :survey_submissions
+  has_many :sponsorships
   accepts_nested_attributes_for :roles
 
   scope :admin, -> { where(is_admin: true) }

@@ -1,0 +1,22 @@
+.nested-fields
+  .row
+    .col-md-2
+      = f.input :carrier, label: false
+    .col-md-2
+      = f.input :track_no, label: false
+    .col-md-1
+      = f.input :boxes, label: false
+    .col-md-3
+      = f.input :sponsor_swags, collection: @sponsor.sponsor_swags.map{ |swag| [swag.name, swag.id]}, label: false
+    .col-md-2
+      = f.input :dispatched_at, as: :string, input_html: { class: 'datetimepicker' }, label: false
+    .col-md-2
+      = remove_association_link :shipment, f
+
+:javascript
+  $('.datetimepicker').datetimepicker({
+    pickTime: true,
+    useCurrent: false,
+    sideBySide: true,
+    format: 'YYYY-MM-DD HH:mm'
+  });

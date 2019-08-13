@@ -1,0 +1,33 @@
+.row
+  .col-md-12
+    .page-header
+      %h1
+        = pluralize(@sponsors.confirmed.length, 'Sponsor')
+        (#{number_with_precision(@sponsors.confirmed.sum(:amount), precision: 0, delimiter: ',')})
+      %p.text-muted
+        People supporting your conference
+.row
+  .col-md-12
+    %div{ role: 'tabpanel' }
+      %ul.nav.nav-tabs
+        %li.active
+          %a{'data-toggle' => 'tab', href: '#sponsorships', role: 'tab'} Sponsorships
+        %li
+          %a{'data-toggle' => 'tab', href: '#contacts', role: 'tab'} Potential Sponsors
+        %li
+          %a{'data-toggle' => 'tab', href: '#shipments', role: 'tab'} Swag & Shipments
+      .tab-content
+        #sponsorships.tab-pane.active
+          = render partial: 'confirmed'
+        #contacts.tab-pane
+          = render partial: 'contacts'
+        #shipments.tab-pane
+          = render partial: 'shipments'
+.row
+  .col-md-12
+    = link_to 'Add Sponsor', new_admin_conference_sponsor_path(@conference.short_title), class: 'btn btn-primary pull-right'
+
+:javascript
+  $('.dropdown-menu li').click(function(e) {
+    e.stopPropagation();
+  })

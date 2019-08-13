@@ -1,0 +1,19 @@
+- if sponsor.transition_possible? :contacted
+  %li
+    = link_to 'Contacted',
+              contacted_admin_conference_sponsor_path(@conference.short_title, sponsor.id)
+
+- if sponsor.transition_possible? :unconfirmed
+  %li
+    = link_to 'Unconfirmed',
+              unconfirmed_admin_conference_sponsor_path(@conference.short_title, sponsor.id)
+
+- if sponsor.transition_possible? :confirm
+  %li
+    = link_to 'Confirm',
+              confirm_admin_conference_sponsor_path(@conference.short_title, sponsor.id)
+
+- if sponsor.transition_possible? :cancel
+  %li
+    = link_to 'Cancel',
+              cancel_admin_conference_sponsor_path(@conference.short_title, sponsor.id)
