@@ -88,10 +88,9 @@ module ApplicationHelper
     end
   end
 
-  # Same as redirect_to(:back) if there is a valid HTTP referer, otherwise redirect_to()
   def redirect_back_or_to(options = {}, response_status = {})
     if request.env['HTTP_REFERER']
-      redirect_to :back
+      redirect_back(fallback_location: root_path)
     else
       redirect_to options, response_status
     end
@@ -99,6 +98,7 @@ module ApplicationHelper
 
   def concurrent_events(event)
     return nil unless event.scheduled? && event.program.selected_event_schedules
+
     event_schedule = event.program.selected_event_schedules.find { |es| es.event == event }
     other_event_schedules = event.program.selected_event_schedules.reject { |other_event_schedule| other_event_schedule == event_schedule }
     concurrent_events = []
@@ -106,6 +106,7 @@ module ApplicationHelper
     event_time_range = (event_schedule.start_time.strftime '%Y-%m-%d %H:%M')...(event_schedule.end_time.strftime '%Y-%m-%d %H:%M')
     other_event_schedules.each do |other_event_schedule|
       next unless other_event_schedule.event.confirmed?
+
       other_event_time_range = (other_event_schedule.start_time.strftime '%Y-%m-%d %H:%M')...(other_event_schedule.end_time.strftime '%Y-%m-%d %H:%M')
       if (event_time_range.to_a & other_event_time_range.to_a).present?
         concurrent_events << other_event_schedule.event
@@ -119,19 +120,19 @@ module ApplicationHelper
   end
 
   def speaker_selector_input(form)
-    user_selector_input(:speakers, form, '', false)
+    user_selector_input(:speakers, form, '', true)
   end
 
   def responsibles_selector_input(form)
     user_selector_input(
       :responsibles,
       form,
-      'The people responsible for the booth. You can only select existing users.'
+      "The people responsible for the #{t 'booth'}. You can only select existing users."
     )
   end
 
   def user_selector_input(field, form, hint = '', multiple = true)
-    users = User.active.pluck(:id, :name, :username, :email).map { |user| [user[0], user[1].blank? ? user[2] : user[1], user[2], user[3]] }.sort_by { |user| user[1].downcase }
+    users = User.where(is_disabled: false).pluck(:id, :name, :username, :email).map { |user| [user[0], user[1].blank? ? user[2] : user[1], user[2], user[3]] }.sort_by { |user| user[1].downcase }
     form.input(
       field,
       as:            :select,
