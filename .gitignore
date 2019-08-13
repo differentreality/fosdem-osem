@@ -2,8 +2,6 @@
 config/application.rb
 config/config.yml
 config/secrets.yml
-config/database.yml
-config/piwik.yml
 /vendor/cache
 /vendor/cache-old
 /storage/*
@@ -35,7 +33,10 @@ pickle-email-*.html
 .env.development
 .env.test
 .env.local
+.envrc
 docker-compose.override.yml
 .DS_Store
 .byebug_history
 .buildconfig
+osem_development
+osem_test

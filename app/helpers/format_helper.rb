@@ -30,6 +30,16 @@ module FormatHelper
     end
   end
 
+  def variant_from_delta(delta, reverse: false)
+    if delta.to_i.positive?
+      reverse ? 'warning' : 'success'
+    elsif delta.to_i.negative?
+      reverse ? 'success' : 'warning'
+    else
+      'info'
+    end
+  end
+
   def target_progress_color(progress)
     progress = progress.to_i
     result =
@@ -181,9 +191,9 @@ module FormatHelper
     return '' if text.nil?
 
     options = {
-      autolink: true,
+      autolink:            true,
       space_after_headers: true,
-      no_intra_emphasis: true
+      no_intra_emphasis:   true
     }
     markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(escape_html: escape_html), options)
     markdown.render(text).html_safe
@@ -195,6 +205,7 @@ module FormatHelper
 
   def quantity_left_of(resource)
     return '-/-' if resource.quantity.blank?
+
     "#{resource.quantity - resource.used}/#{resource.quantity}"
   end
 end

@@ -27,8 +27,16 @@
 # The name of the database
 # OSEM_DB_NAME=osem_production
 
+# The memached servers to use, default is a file based cache
+# OSEM_MEMCACHED_SERVERS='cache-1.example.com,cache-2.example.com'
+# OSEM_MEMCACHED_USERNAME='root'
+# OSEM_MEMCACHED_PASSWORD='1234'
+
 # The ruby version to use
 # OSEM_RUBY_VERSION=2.5.0
+
+# What time is it?
+# OSEM_TIME_ZONE="UTC"
 
 # The name of your OSEM installation
 # OSEM_NAME=OSEM
@@ -41,13 +49,15 @@
 # OSEM_EMAIL_ADDRESS="no-reply@example.com"
 
 # The api key for transifex.com.
-# See TRANSLATION.md for details
+# See https://github.com/openSUSE/osem/wiki/Translation
 # OSEM_TRANSIFEX_APIKEY=1234
 
 # The errbit host to post exceptions to
 # OSEM_ERRBIT_HOST=errbit.example.com
-# The api key for the errbit host
-# OSEM_ERRBIT_APIKEY=1234
+# The project to use on the errbit host
+# OSEM_ERRBIT_ID=1234
+# The key for this project
+# OSEM_ERRBIT_KEY=5678
 
 # OMNIAUTH Developer Key/Secret for GOOGLE
 # OSEM_GOOGLE_KEY=1234
@@ -66,13 +76,16 @@
 # OSEM_SUSE_SECRET=5678
 
 # STRIPE Publishable/Secret keys
-# test keys for development mode, live for production mode
+# -> https://github.com/openSUSE/osem/wiki/Stripe
 # STRIPE_PUBLISHABLE_KEY=1234
 # STRIPE_SECRET_KEY=5678
 
-# Disable linting of factories in the test suite.
-# Speeds up turn around times of tests
-# OSEM_FACTORY_LINT=false
+# MATOMO/PIWIK CONFIGURATION
+# OSEM_PIWIK_ID=12345
+# OSEM_PIWIK_URL=localhost
+# OSEM_PIWIK_ASYNC=false
+# OSEM_PIWIK_DISABLED=true
+# OSEM_PIWIK_HOSTNAME=localhost
 
 # The smtp configuration. See the rails guides for more
 # http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
@@ -87,6 +100,7 @@
 
 # Enable the usage of the devise ichain plugin
 # OSEM_ICHAIN_ENABLED=false
+# OSEM_ICHAIN_BASE_URL=https://example.com
 
 # ReCAPTCHA keys
 # RECAPTCHA_SITE_KEY=1234
@@ -104,3 +118,17 @@
 # Your skylight.io keys
 # SKYLIGHT_AUTHENTICATION=1234
 # SKYLIGHT_PUBLIC_DASHBOARD_URL='https://oss.skylight.io/app/applications/xxxxxxxxxxxx'
+
+# Disable linting of factories in the test suite.
+# Speeds up turn around times of tests
+# OSEM_FACTORY_LINT=false
+
+# How should browser tests be performed?
+# For headless Chrome (default):
+# OSEM_TEST_DRIVER=chrome_headless
+# For Chrome:
+# OSEM_TEST_DRIVER=chrome
+# For headless Firefox:
+# OSEM_TEST_DRIVER=firefox_headless
+# For Firefox:
+# OSEM_TEST_DRIVER=firefox

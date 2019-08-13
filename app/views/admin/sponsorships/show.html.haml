@@ -1,0 +1,40 @@
+.row
+  .col-md-12
+    .page-header
+      %h1
+        = @sponsor.name
+        = link_to 'Edit', edit_admin_conference_sponsor_path(@conference, @sponsor), class: 'btn btn-primary pull-right'
+      .text-muted
+        = @sponsor.description
+        |
+        = link_to @sponsor.website_url, @sponsor.website_url
+.row
+  .col-md-12
+    - if @sponsor.picture?
+      = image_tag(@sponsor.picture.thumb.url, width: '20%')
+    %dl.dl-horizontal
+      %dt State
+      %dd= @sponsor.state
+      %dt Sponsorship Level
+      %dd= @sponsor.sponsorship_level.try(:title)
+      %dt Invoiced
+      %dd= @sponsor.invoice_sent_at
+      %dt Payment
+      %dd
+        - if @sponsor.paid
+          .fa.fa-check.text-success
+        - else
+          .fa.fa-times.text-danger
+        = number_with_delimiter(@sponsor.amount, delimiter: ',')
+      %dt Banner
+      %dd
+        - if @sponsor.has_banner
+          .fa.fa-check.text-success
+        - else
+          .fa.fa-times.text-danger
+      %dt Shipments
+      %dd= @sponsor.sponsor_shipments.length
+      - if @sponsor.sponsor_swags.any?
+        .page-header
+          %h2 Swag
+        = render partial: 'sponsor_swag', locals: { sponsor: @sponsor }

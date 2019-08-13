@@ -1,0 +1,48 @@
+= javascript_include_tag 'chartkick'
+= javascript_include_tag 'Chart.bundle'
+= javascript_include_tag "//www.google.com/jsapi", "chartkick"
+
+%h2.text-center
+  Total Contacts:
+  = @sponsors.length
+  = '-'
+  Already contacted:
+  = @sponsors.contacted.length
+  = '-'
+  In negotiations:
+  = @sponsors.unconfirmed.length
+
+
+
+= pie_chart @sponsors_contacted
+
+- if @conference.sponsors.unconfirmed.any?
+  .row
+    .col-md-12
+      %table.table.table-hover.datatable#sponsors
+        %thead
+          %th.text-center Name
+          %th.text-center Description
+          %th.text-center Level
+          %th.text-center State
+          %th.text-center Actions
+        %tbody
+          - @conference.sponsors.unconfirmed.each do |sponsor|
+            %tr
+              %td.text-center= sponsor.name
+              %td.text-justified= truncate(sponsor.description)
+              %td.text-center= sponsor.sponsorship_level.title
+              %td.text-center
+                .btn-group
+                  %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
+                    = sponsor.state.humanize
+                    %span.caret
+                  %ul.dropdown-menu{ role: 'menu' }
+                    = render 'change_state_dropdown', sponsor: sponsor
+              %td.text-center
+                .btn-group
+                  = link_to 'Edit', edit_admin_conference_sponsor_path(@conference.short_title, sponsor),
+                  method: :get, class: 'btn btn-primary'
+                  = link_to 'Email', prepare_email_admin_conference_sponsor_path(@conference, sponsor), class: 'btn btn-warning'
+                  = link_to 'Delete', admin_conference_sponsor_path(@conference.short_title, sponsor),
+                  method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete the sponsor #{sponsor.name}?" }
