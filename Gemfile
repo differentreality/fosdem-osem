@@ -13,7 +13,7 @@ end
 gem 'rails', '~> 5.0.5'
 
 # Use Puma as the app server
-gem 'puma', '~> 3.0'
+gem 'puma', '~> 3.12'
 
 # enables serving assets in production and setting your logger to standard out
 # both of which are required to run an application on a twelve-factor provider
