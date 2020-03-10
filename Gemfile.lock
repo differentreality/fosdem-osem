@@ -566,7 +566,7 @@ GEM
     unobtrusive_flash (3.3.1)
       railties
     url (0.3.2)
-    user_agent_parser (2.4.1)
+    user_agent_parser (2.6.0)
     warden (1.2.7)
       rack (>= 1.0)
     web-console (2.3.0)
